@@ -228,4 +228,4 @@ function getMap() {
 
 getMap();
 // Draw a legend for this map
-map.legend();
+// map.legend();
