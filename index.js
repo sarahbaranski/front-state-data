@@ -1,3 +1,9 @@
+/* global import */
+
+// import axios from "axios";
+
+axios.get("http://localhost:3000/api/states").then((response) => console.log(response.data));
+
 function getMap() {
   var election = new Datamap({
     scope: "usa",
