@@ -2,8 +2,13 @@ const fetchStates = () => {
   axios
     .get("http://localhost:3000/api/states")
     .then((response) => {
-      const states = response.data;
-      console.log(`GET STATES`, states);
+      const usa = response.data;
+      console.log(`GET STATES`, usa);
+      // console.log(usa.state[0].name);
+      // console.log(usa.state[0].abbrev);
+      // console.log(usa.state[0].share_population_in_metro_areas);
+      // console.log(usa.state[0].share_population_with_high_school_degree);
+      // console.log(usa.state[0].share_unemployed_seasonal);
     })
     .catch((error) => console.error(error));
 };
