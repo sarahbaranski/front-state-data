@@ -5,6 +5,8 @@ const fetchStates = () => {
       var statesData = response.data.state;
       console.log(statesData[0].name);
       getMap(statesData);
+      const usa = response.data;
+      console.log(`GET STATES`, usa);
     })
     .catch((error) => console.error(error));
 };
