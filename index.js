@@ -1,8 +1,16 @@
-/* global import */
+const fetchStates = () => {
+  axios
+    .get("http://localhost:3000/api/states")
+    .then((response) => {
+      const states = response.data;
+      console.log(`GET STATES`, states);
+    })
+    .catch((error) => console.error(error));
+};
 
-// import axios from "axios";
+fetchStates();
 
-axios.get("http://localhost:3000/api/states").then((response) => console.log(response.data));
+// axios.get("http://localhost:3000/api/states").then((response) => console.log(response.data));
 
 function getMap() {
   var states = {
@@ -219,12 +227,12 @@ function getMap() {
     },
 
     fills: {
-      Republican: "#CC4731",
-      Democrat: "#306596",
-      "Heavy Democrat": "#667FAF",
-      "Light Democrat": "#A9C0DE",
-      "Heavy Republican": "#CA5E5B",
-      "Light Republican": "#EAA9A8",
+      // Republican: "#CC4731",
+      // Democrat: "#306596",
+      // "Heavy Democrat": "#667FAF",
+      // "Light Democrat": "#A9C0DE",
+      // "Heavy Republican": "#CA5E5B",
+      // "Light Republican": "#EAA9A8",
       defaultFill: "#EDDC4E",
     },
     data: states,
@@ -234,5 +242,3 @@ function getMap() {
 }
 
 getMap();
-// Draw a legend for this map
-// map.legend();
