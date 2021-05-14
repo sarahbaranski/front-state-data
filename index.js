@@ -2,13 +2,11 @@ const fetchStates = () => {
   axios
     .get("http://localhost:3000/api/states")
     .then((response) => {
+      var statesData = response.data.state;
+      console.log(statesData[0].name);
+      getMap(statesData);
       const usa = response.data;
       console.log(`GET STATES`, usa);
-      // console.log(usa.state[0].name);
-      // console.log(usa.state[0].abbrev);
-      // console.log(usa.state[0].share_population_in_metro_areas);
-      // console.log(usa.state[0].share_population_with_high_school_degree);
-      // console.log(usa.state[0].share_unemployed_seasonal);
     })
     .catch((error) => console.error(error));
 };
@@ -17,7 +15,8 @@ fetchStates();
 
 // axios.get("http://localhost:3000/api/states").then((response) => console.log(response.data));
 
-function getMap() {
+function getMap(stateData) {
+  console.log(stateData);
   var states = {
     AZ: {
       fillKey: "Republican",
@@ -219,25 +218,57 @@ function getMap() {
       fillKey: "Republican",
       electoralVotes: 32,
     },
+    DC: {
+      fillKey: "Republican",
+      electoralVotes: 32,
+    },
   };
+
+  // var test = stateData.map((state) => state.abbrev);
+  // console.log(test);
+
+  stateData.forEach((state) => {
+    console.log(state);
+    states[state.abbrev].share_population_in_metro_areas = `${
+      state.share_population_in_metro_areas * 100
+    }%`;
+    states[state.abbrev].share_population_with_high_school_degree = `${
+      state.share_population_with_high_school_degree * 100
+    }%`;
+    states[state.abbrev].share_unemployed_seasonal = `${
+      state.share_unemployed_seasonal * 100
+    }%`;
+  });
+
   var election = new Datamap({
     scope: "usa",
     element: document.getElementById("map_election"),
     geographyConfig: {
       highlightBorderColor: "#bada55",
       popupTemplate: function (geography, data) {
-        return '<div class="hoverinfo">' + geography.properties.name + "Electoral Votes:" + data.electoralVotes + " ";
+        return (
+          '<div class="hoverinfo">' +
+          geography.properties.name +
+          "\nElectoral Votes: " +
+          data.electoralVotes +
+          "\nShare Population in Metro Areas: " +
+          data.share_population_in_metro_areas +
+          "\nShare Population with High School Degrees: " +
+          data.share_population_with_high_school_degree +
+          "\nShare Unemployed Seasonal: " +
+          data.share_unemployed_seasonal
+        );
       },
       highlightBorderWidth: 3,
     },
 
     fills: {
-      // Republican: "#CC4731",
-      // Democrat: "#306596",
-      // "Heavy Democrat": "#667FAF",
-      // "Light Democrat": "#A9C0DE",
-      // "Heavy Republican": "#CA5E5B",
-      // "Light Republican": "#EAA9A8",
+      Republican: "#CC4731",
+      Democrat: "#306596",
+      "Heavy Democrat": "#667FAF",
+      "Light Democrat": "#A9C0DE",
+      "Heavy Republican": "#CA5E5B",
+      "Light Republican": "#EAA9A8",
       defaultFill: "#EDDC4E",
     },
     data: states,
@@ -245,5 +276,3 @@ function getMap() {
 
   election.labels();
 }
-
-getMap();
